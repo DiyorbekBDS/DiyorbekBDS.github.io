@@ -20,7 +20,7 @@
 <script>
 (function(){var d=document.documentElement;d.classList.add('js');
 try{var t=localStorage.getItem('bds-theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}
-setTimeout(function(){if(!d.classList.contains('booted'))d.classList.add('nofx')},5000)})();
+setTimeout(function(){if(!d.classList.contains('booted'))d.classList.add('nofx')},12000)})();
 </script>
 <style>
 @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
@@ -68,10 +68,11 @@ main.jolt{animation:jolt .45s linear}
 #fx{position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
 
 /* reveal */
-html.js .fx{opacity:0}
-.fx.on{opacity:1;animation:materialize 1s cubic-bezier(.2,.8,.2,1) backwards}
-@keyframes materialize{0%{opacity:0;filter:blur(10px) brightness(2.4)}55%{opacity:1;filter:blur(1px) brightness(1.5)}100%{opacity:1;filter:none}}
-html.nofx .fx{opacity:1!important}
+/* every [data-fx] element is invisible until its particles have gathered and built it */
+html.js [data-fx]{opacity:0}
+html.js [data-fx].on{opacity:1;animation:materialize .95s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes materialize{0%{opacity:0;filter:blur(8px) brightness(2.8)}45%{opacity:.9;filter:blur(2px) brightness(1.8)}100%{opacity:1;filter:none}}
+html.nofx [data-fx]{opacity:1!important}
 html.nofx .logo-wrap{opacity:1!important;transform:none!important;filter:none!important}
 [data-i18n]{transition:opacity .2s,filter .2s}
 .i18n-out{opacity:0;filter:blur(6px)}
@@ -683,7 +684,8 @@ function startIntro() {
   introT0 = performance.now(); introScroll = scrollY; intro = []; allPts = [];
   let lastReveal = 0;
   els.forEach((o, i) => {
-    const D = 650 + i * 85, pts = sets[i];
+    // ~1s of pure floating star-dust first, then each element is built in turn, top to bottom
+    const D = 1000 + i * 85, pts = sets[i];
     const keep = Math.max(ratio, Math.min(1, 60 / Math.max(1, pts.length)));
     for (const p of pts) {
       if (Math.random() > keep) continue;
@@ -691,9 +693,10 @@ function startIntro() {
       const sx = rand(-.05, 1.05) * W, sy = rand(-.05, 1.05) * H;
       const dx = p.x - sx, dy = p.y - sy, k = rand(-.45, .45);
       intro.push({ sx, sy, cx: (sx + p.x) / 2 - dy * k, cy: (sy + p.y) / 2 + dx * k, tx: p.x, ty: p.y,
-        t0: D + rand(0, 260), dur: rand(850, 1250), c: p.c, s: rand(1, 2.1), ph: rand(0, TAU), w: rand(.6, 1.6) });
+        t0: D + rand(0, 180), dur: rand(900, 1120), c: p.c, s: rand(1, 2.1), ph: rand(0, TAU), w: rand(.6, 1.6) });
     }
-    const rv = D + 1050; lastReveal = Math.max(lastReveal, rv);
+    // the element starts condensing out of the dust just as the bulk of its particles land
+    const rv = D + 1020; lastReveal = Math.max(lastReveal, rv);
     setTimeout(() => o.el.classList.add('on'), rv);
   });
   phase = 'intro';
@@ -718,7 +721,7 @@ function drawIntro(c, now) {
         c.globalAlpha = .9; c.strokeStyle = p.c; c.lineWidth = p.s;
         c.beginPath(); c.moveTo(px, py); c.lineTo(x, y); c.stroke();
       } else {
-        const f = (t - p.t0 - p.dur) / 500;
+        const f = (t - p.t0 - p.dur) / 750; // landed dust glows on while the text solidifies beneath it
         if (f >= 1) { p.dead = true; continue; }
         c.globalAlpha = 1 - f; c.fillStyle = p.c; c.fillRect(x - p.s / 2, y - p.s / 2, p.s, p.s);
       }
