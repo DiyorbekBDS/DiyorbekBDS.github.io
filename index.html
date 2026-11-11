@@ -159,13 +159,16 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
 .link:active{--ty:1px}
 .link::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.3px;background:conic-gradient(from var(--ang),transparent 0 62%,var(--teal) 78%,var(--gold) 90%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinang 5s linear infinite;pointer-events:none}
 .link::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.16),transparent);transform:skewX(-20deg);animation:shine 6s ease-in-out infinite;pointer-events:none}
-.l2::before{animation-delay:-1.7s}.l3::before{animation-delay:-3.4s}
-.l2::after{animation-delay:1.2s}.l3::after{animation-delay:2.4s}
+.l2::before{animation-delay:-.85s}.l3::before{animation-delay:-1.7s}.l4::before{animation-delay:-2.55s}.l5::before{animation-delay:-3.4s}.l6::before{animation-delay:-4.25s}
+.l2::after{animation-delay:.8s}.l3::after{animation-delay:1.6s}.l4::after{animation-delay:2.4s}.l5::after{animation-delay:3.2s}.l6::after{animation-delay:4s}
+.tel .t{font-variant-numeric:tabular-nums;letter-spacing:.02em;white-space:nowrap}
 @keyframes shine{0%,65%{left:-60%}100%{left:130%}}
 .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;color:#04161a}
 .l1 .ico{background:linear-gradient(135deg,#ffe27e,#f29b00);box-shadow:0 6px 20px rgba(242,155,0,.35)}
 .l2 .ico{background:linear-gradient(135deg,#6fd0ff,#1f8fe0);box-shadow:0 6px 20px rgba(42,171,238,.4)}
-.l3 .ico{background:linear-gradient(135deg,#5ff8ec,#00a2bf);box-shadow:0 6px 20px rgba(0,200,200,.35)}
+.l3 .ico{background:linear-gradient(135deg,#c9a8ff,#7a4dff);box-shadow:0 6px 20px rgba(122,77,255,.38)}
+.l4 .ico{background:linear-gradient(135deg,#5ff8ec,#00a2bf);box-shadow:0 6px 20px rgba(0,200,200,.35)}
+.l5 .ico,.l6 .ico{background:linear-gradient(135deg,#7dffb8,#10b866);box-shadow:0 6px 20px rgba(16,184,102,.35)}
 .lt{display:flex;flex-direction:column;gap:3px;min-width:0}
 .lt .t{font-size:15.5px;font-weight:800;line-height:1.25}
 .lt .s{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -200,6 +203,36 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
 ::view-transition-new(root){animation:vtReveal .8s cubic-bezier(.6,0,.2,1)}
 @keyframes vtReveal{from{clip-path:circle(0 at var(--vx,90%) var(--vy,5%))}to{clip-path:circle(160vmax at var(--vx,90%) var(--vy,5%))}}
 
+/* column wrappers: on phones they stack exactly like before */
+.col{display:flex;flex-direction:column;gap:24px;min-width:0}
+.contact-label{display:none}
+
+/* ---------- computer: logo & info left, contacts right ---------- */
+@media (min-width:900px){
+  main{max-width:1180px;min-height:100vh;min-height:100svh;padding:26px 48px 36px;display:grid;
+    grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);grid-template-rows:auto 1fr;grid-template-areas:"top top" "left right";
+    column-gap:76px;row-gap:8px;align-items:center}
+  .topbar{grid-area:top;align-self:start}
+  .col-left{grid-area:left;gap:22px}
+  .col-right{grid-area:right;gap:16px;padding-top:10px}
+  .hero{gap:12px}
+  .logo-wrap{width:182px;margin:30px auto 16px}
+  .n1 b{font-size:46px}
+  .n2 b{font-size:60px}
+  .tagline{font-size:19px;max-width:30ch}
+  .bio{font-size:14.5px;max-width:44ch}
+  .contact-label{display:block}
+  .link{padding:13px 18px 13px 13px}
+}
+@media (min-width:900px) and (max-height:820px){
+  .logo-wrap{width:150px;margin:24px auto 12px}
+  .n1 b{font-size:40px}.n2 b{font-size:52px}
+  .col-left{gap:18px}.hero{gap:10px}
+  main{padding-top:18px}
+  .brand{padding:12px 10px;gap:6px}
+  .link{padding-top:11px;padding-bottom:11px}
+}
+
 @media (max-width:340px){.brands{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.grid,.aurora i,.rays,.orbit,.ring2,.link::after{animation:none}}
 </style>
@@ -223,6 +256,7 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
     </button>
   </header>
 
+  <div class="col col-left">
   <section class="hero">
     <div class="logo-wrap" id="logoWrap" data-fall>
       <div class="logo-float">
@@ -264,6 +298,10 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
     </div>
   </section>
 
+  </div>
+
+  <div class="col col-right">
+  <div class="sec-label contact-label" data-fx data-fall><svg viewBox="0 0 24 24"><path d="M4 5h16v12H8l-4 3Z M8 9.5h8 M8 13h5"/></svg><span data-i18n="contacts">Aloqa</span></div>
   <nav class="links" aria-label="Havolalar">
     <a class="link l1" data-fx data-fall href="https://morbidopremium.uz/" target="_blank" rel="noopener">
       <span class="ico" data-col="#f6b322"><svg viewBox="0 0 24 24"><path d="M12 2.5a9.5 9.5 0 1 0 0 19a9.5 9.5 0 1 0 0-19Z M2.5 12h19 M12 2.5c2.6 2.8 3.8 6 3.8 9.5s-1.2 6.7-3.8 9.5c-2.6-2.8-3.8-6-3.8-9.5s1.2-6.7 3.8-9.5Z"/></svg></span>
@@ -275,9 +313,24 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
       <span class="lt"><span class="t" data-i18n="channel">Telegram kanal</span><span class="s">@BDS_500uzb</span></span>
       <svg class="arr" viewBox="0 0 24 24"><path d="M7 17 17 7 M8.5 7H17v8.5"/></svg>
     </a>
-    <a class="link l3" data-fx data-fall href="https://t.me/DIYORBEK_BDS" target="_blank" rel="noopener">
+    <a class="link l3" data-fx data-fall href="https://t.me/BDSINDUSTRIES" target="_blank" rel="noopener">
+      <span class="ico" data-col="#a77bff"><svg viewBox="0 0 24 24"><path d="M3 10.5v3a1 1 0 0 0 1 1h2.5l5.5 4.5V5L6.5 9.5H4a1 1 0 0 0-1 1Z M15.5 8.5a5 5 0 0 1 0 7 M18.5 5.5a9 9 0 0 1 0 13"/></svg></span>
+      <span class="lt"><span class="t" data-i18n="channel2">MORBIDO kanali</span><span class="s">@BDSINDUSTRIES</span></span>
+      <svg class="arr" viewBox="0 0 24 24"><path d="M7 17 17 7 M8.5 7H17v8.5"/></svg>
+    </a>
+    <a class="link l4" data-fx data-fall href="https://t.me/DIYORBEK_BDS" target="_blank" rel="noopener">
       <span class="ico" data-col="#2ee6dc"><svg viewBox="0 0 24 24"><path d="M21.5 2.5 10.5 13.5 M21.5 2.5l-7 19-4-8-8-4Z"/></svg></span>
       <span class="lt"><span class="t" data-i18n="chat">Menga yozing</span><span class="s">@DIYORBEK_BDS</span></span>
+      <svg class="arr" viewBox="0 0 24 24"><path d="M7 17 17 7 M8.5 7H17v8.5"/></svg>
+    </a>
+    <a class="link l5 tel" data-fx data-fall href="tel:+998900709552">
+      <span class="ico" data-col="#3fe08f"><svg viewBox="0 0 24 24"><path d="M21.5 16.6v2.8a1.9 1.9 0 0 1-2.1 1.9 18.8 18.8 0 0 1-8.2-2.9 18.5 18.5 0 0 1-5.7-5.7 18.8 18.8 0 0 1-2.9-8.2A1.9 1.9 0 0 1 4.5 2.4h2.8a1.9 1.9 0 0 1 1.9 1.6c.1.9.3 1.8.7 2.7a1.9 1.9 0 0 1-.4 2L8.3 9.9a15.2 15.2 0 0 0 5.7 5.7l1.2-1.2a1.9 1.9 0 0 1 2-.4c.9.3 1.8.6 2.7.7a1.9 1.9 0 0 1 1.6 1.9Z"/></svg></span>
+      <span class="lt"><span class="t">+998 90 070 95 52</span><span class="s" data-i18n="call">Qo'ng'iroq qilish</span></span>
+      <svg class="arr" viewBox="0 0 24 24"><path d="M7 17 17 7 M8.5 7H17v8.5"/></svg>
+    </a>
+    <a class="link l6 tel" data-fx data-fall href="tel:+998910079552">
+      <span class="ico" data-col="#3fe08f"><svg viewBox="0 0 24 24"><path d="M21.5 16.6v2.8a1.9 1.9 0 0 1-2.1 1.9 18.8 18.8 0 0 1-8.2-2.9 18.5 18.5 0 0 1-5.7-5.7 18.8 18.8 0 0 1-2.9-8.2A1.9 1.9 0 0 1 4.5 2.4h2.8a1.9 1.9 0 0 1 1.9 1.6c.1.9.3 1.8.7 2.7a1.9 1.9 0 0 1-.4 2L8.3 9.9a15.2 15.2 0 0 0 5.7 5.7l1.2-1.2a1.9 1.9 0 0 1 2-.4c.9.3 1.8.6 2.7.7a1.9 1.9 0 0 1 1.6 1.9Z"/></svg></span>
+      <span class="lt"><span class="t">+998 91 007 95 52</span><span class="s" data-i18n="call">Qo'ng'iroq qilish</span></span>
       <svg class="arr" viewBox="0 0 24 24"><path d="M7 17 17 7 M8.5 7H17v8.5"/></svg>
     </a>
   </nav>
@@ -286,6 +339,7 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
     <button type="button" class="shake" id="shakeBtn" data-fx data-fall><svg viewBox="0 0 24 24"><path d="M8.5 3h7A1.5 1.5 0 0 1 17 4.5v15a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 19.5v-15A1.5 1.5 0 0 1 8.5 3Z M11 18h2 M3.5 8.5v7 M20.5 8.5v7"/></svg><span data-i18n="shake">Telefonni silkitib ko'ring</span></button>
     <div class="copy" data-fx data-fall>© 2026 BDS INDUSTRIES · MORBIDO</div>
   </footer>
+  </div>
 </main>
 
 <canvas id="fx" aria-hidden="true"></canvas>
@@ -330,6 +384,7 @@ const T = {
     founder: 'BDS INDUSTRIES va MORBIDO asoschisi',
     bdsDesc: 'Ishlab chiqarish va innovatsiyalar', morDesc: 'Premium gigiyena mahsulotlari',
     site: 'Rasmiy sayt', channel: 'Telegram kanal', chat: 'Menga yozing',
+    channel2: 'MORBIDO kanali', call: "Qo'ng'iroq qilish", contacts: 'Aloqa',
     shake: "Telefonni silkitib ko'ring", shakeDesk: "Silkitish effektini ko'rish",
     shakeToast: 'Endi telefonni silkiting! 📳', tapAgain: 'Effekt uchun yana bir marta bosing',
     closed: 'Sahifa yopildi', reopen: 'Qayta ochish'
@@ -343,6 +398,7 @@ const T = {
     founder: 'Основатель BDS INDUSTRIES и MORBIDO',
     bdsDesc: 'Производство и инновации', morDesc: 'Премиальная гигиеническая продукция',
     site: 'Официальный сайт', channel: 'Telegram-канал', chat: 'Написать мне',
+    channel2: 'Канал MORBIDO', call: 'Позвонить', contacts: 'Контакты',
     shake: 'Встряхните телефон', shakeDesk: 'Показать эффект встряски',
     shakeToast: 'Теперь встряхните телефон! 📳', tapAgain: 'Нажмите ещё раз, чтобы запустить эффект',
     closed: 'Страница закрыта', reopen: 'Открыть снова'
@@ -356,6 +412,7 @@ const T = {
     founder: 'Founder of BDS INDUSTRIES & MORBIDO',
     bdsDesc: 'Manufacturing & innovation', morDesc: 'Premium hygiene products',
     site: 'Official website', channel: 'Telegram channel', chat: 'Message me',
+    channel2: 'MORBIDO channel', call: 'Call now', contacts: 'Contacts',
     shake: 'Shake your phone', shakeDesk: 'Try the shake effect',
     shakeToast: 'Now give your phone a shake! 📳', tapAgain: 'Tap once more to play the effect',
     closed: 'Page closed', reopen: 'Open again'
@@ -438,7 +495,9 @@ function resize() {
   for (const c of [bg, fx]) { c.width = Math.round(W * DPR); c.height = Math.round(H * DPR); }
   bctx.setTransform(DPR, 0, 0, DPR, 0, 0); fctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   initStars(); fitDollars();
+  const mr = main.getBoundingClientRect(); colL = mr.left; colR = mr.right;
 }
+let colL = 0, colR = 0;
 
 function mkDollar(stops, glow) {
   const c = document.createElement('canvas'); c.width = c.height = 128;
@@ -518,7 +577,7 @@ function drawBG(now, dt) {
     let k = Math.cos(d.spin); if (Math.abs(k) < .12) k = k < 0 ? -.12 : .12;
     c.scale(k, 1);
     // dimmer behind the content column so text always stays readable
-    const behind = Math.abs(x - W / 2) < 240 ? .6 : 1;
+    const behind = x > colL && x < colR ? .6 : 1;
     c.globalAlpha = (pal.dark ? .28 + .6 * d.z : .35 + .55 * d.z) * behind;
     c.drawImage(d.teal ? spr.teal : spr.gold, -d.s * .85, -d.s * .85, d.s * 1.7, d.s * 1.7);
     c.restore();
@@ -605,9 +664,14 @@ function sampleEl(el, step) {
 }
 
 /* ================= FX state ================= */
-let introT0 = 0, intro = [], allPts = [], inflow = [], sparks = [], dust = [], rings = [], star = null, bodies = [];
+let introT0 = 0, introScroll = 0, intro = [], allPts = [], inflow = [], sparks = [], dust = [], rings = [], star = null, bodies = [];
 
-function bez(p, e) { const i = 1 - e; return [i * i * p.sx + 2 * i * e * p.cx + e * e * p.tx, i * i * p.sy + 2 * i * e * p.cy + e * e * p.ty]; }
+// dy = how far the page scrolled since the targets were measured: targets ride along with the page,
+// so the user can scroll freely while the text is still assembling.
+function bez(p, e, dy) {
+  const i = 1 - e, cy = p.cy + dy * .5, ty = p.ty + dy;
+  return [i * i * p.sx + 2 * i * e * p.cx + e * e * p.tx, i * i * p.sy + 2 * i * e * cy + e * e * ty];
+}
 
 function startIntro() {
   const els = $$('[data-fx]').map(el => ({ el, r: el.getBoundingClientRect() }))
@@ -616,7 +680,7 @@ function startIntro() {
   const total = sets.reduce((s, p) => s + p.length, 0);
   const budget = coarse ? 1500 : 2600;
   const ratio = Math.min(1, budget / Math.max(1, total));
-  introT0 = performance.now(); intro = []; allPts = [];
+  introT0 = performance.now(); introScroll = scrollY; intro = []; allPts = [];
   let lastReveal = 0;
   els.forEach((o, i) => {
     const D = 650 + i * 85, pts = sets[i];
@@ -637,7 +701,7 @@ function startIntro() {
 }
 
 function drawIntro(c, now) {
-  const t = now - introT0;
+  const t = now - introT0, dy = introScroll - scrollY;
   let alive = 0;
   for (const p of intro) {
     if (p.dead) continue; alive++;
@@ -648,9 +712,9 @@ function drawIntro(c, now) {
       c.fillRect(x - p.s / 2, y - p.s / 2, p.s, p.s);
     } else {
       const u = Math.min(1, (t - p.t0) / p.dur), e = easeIO(u);
-      const [x, y] = bez(p, e);
+      const [x, y] = bez(p, e, dy);
       if (u < 1) {
-        const [px, py] = bez(p, Math.max(0, e - .05));
+        const [px, py] = bez(p, Math.max(0, e - .05), dy);
         c.globalAlpha = .9; c.strokeStyle = p.c; c.lineWidth = p.s;
         c.beginPath(); c.moveTo(px, py); c.lineTo(x, y); c.stroke();
       } else {
@@ -668,11 +732,11 @@ const BURST_T = 2150;
 function startStar() {
   const r = $('#logoWrap').getBoundingClientRect();
   phase = 'star';
-  star = { x: r.left + r.width / 2, y: r.top + r.height / 2, t0: performance.now(), E: 0, burst: false };
+  star = { x: r.left + r.width / 2, y: r.top + r.height / 2, docY: r.top + r.height / 2 + scrollY, t0: performance.now(), E: 0, burst: false };
   const N = coarse ? 230 : 400; star.N = N; inflow = [];
   for (let i = 0; i < N; i++) {
     let sx, sy, col;
-    if (allPts.length && Math.random() < .45) { const p = allPts[(Math.random() * allPts.length) | 0]; sx = p.x; sy = p.y; col = p.c; }
+    if (allPts.length && Math.random() < .45) { const p = allPts[(Math.random() * allPts.length) | 0]; sx = p.x; sy = p.y + introScroll - scrollY; col = p.c; }
     else {
       if (Math.random() < .45) { sx = rand(0, W); sy = rand(0, H); }
       else { const side = (Math.random() * 4) | 0; sx = side === 1 ? W + 10 : side === 3 ? -10 : rand(0, W); sy = side === 0 ? -10 : side === 2 ? H + 10 : rand(0, H); }
@@ -685,6 +749,7 @@ function startStar() {
 
 function drawStar(c, now) {
   const S = star, t = now - S.t0;
+  S.y = S.docY - scrollY; // the star stays pinned to the logo even if the page is scrolled
   for (const p of inflow) {
     if (p.done) continue;
     if (t < p.t0) {
@@ -725,7 +790,7 @@ function drawStar(c, now) {
     const f = (now - r.t0) / r.dur; if (f < 0) continue;
     if (f >= 1) { r.dead = true; continue; }
     c.globalAlpha = (1 - f) * r.a; c.strokeStyle = r.c; c.lineWidth = r.w * (1 - f) + .5;
-    c.beginPath(); c.arc(r.x, r.y, easeOut(f) * r.max, 0, TAU); c.stroke();
+    c.beginPath(); c.arc(r.x, r.y - scrollY, easeOut(f) * r.max, 0, TAU); c.stroke();
   }
   rings = rings.filter(r => !r.dead);
   if (after > 1500) { star = null; inflow = []; rings = []; toIdle(); }
@@ -733,9 +798,9 @@ function drawStar(c, now) {
 
 function burst(S) {
   const now = performance.now(), max = Math.hypot(W, H);
-  rings.push({ x: S.x, y: S.y, t0: now, dur: 1000, max, w: 7, a: 1, c: pal.teal },
-             { x: S.x, y: S.y, t0: now + 90, dur: 1150, max: max * .8, w: 3, a: .85, c: pal.white },
-             { x: S.x, y: S.y, t0: now + 200, dur: 1300, max: max * .6, w: 2, a: .7, c: pal.gold });
+  rings.push({ x: S.x, y: S.docY, t0: now, dur: 1000, max, w: 7, a: 1, c: pal.teal },
+             { x: S.x, y: S.docY, t0: now + 90, dur: 1150, max: max * .8, w: 3, a: .85, c: pal.white },
+             { x: S.x, y: S.docY, t0: now + 200, dur: 1300, max: max * .6, w: 2, a: .7, c: pal.gold });
   const n = coarse ? 120 : 190, cols = [pal.teal, pal.gold, pal.white];
   for (let i = 0; i < n; i++) {
     const a = rand(0, TAU), v = rand(180, 950);
@@ -971,8 +1036,7 @@ Promise.all([fontsReady, imgReady]).then(() => {
     $('#logoWrap').classList.add('born', 'alive');
     toIdle(); return;
   }
-  root.classList.add('lock');
-  setTimeout(startIntro, 200);
+  setTimeout(startIntro, 200); // no scroll lock: the page can be scrolled while it assembles
 });
 })();
 </script>
