@@ -19,6 +19,8 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;700;800&family=Orbitron:wght@700;800;900&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
 <script>
 (function(){var d=document.documentElement;d.classList.add('js');
+/* phones & weaker machines get "lite": same look, but no live glass-blur and fewer per-frame repaints */
+try{if(matchMedia('(pointer: coarse)').matches||(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=4)d.classList.add('lite')}catch(e){}
 try{var t=localStorage.getItem('bds-theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t)}catch(e){}
 setTimeout(function(){if(!d.classList.contains('booted'))d.classList.add('nofx')},12000)})();
 </script>
@@ -49,7 +51,7 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-l
 /* ---------- background stage ---------- */
 #stage{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 #stage.tvoff{animation:tvoff 1.05s cubic-bezier(.7,0,.3,1) forwards}
-#bg{position:absolute;inset:0;width:100%;height:100%}
+#bg{position:absolute;left:0;top:0}
 .aurora i{position:absolute;width:85vmax;height:85vmax;border-radius:50%;opacity:var(--aur)}
 .aurora i:nth-child(1){left:-35vmax;top:-35vmax;background:radial-gradient(circle,var(--a1) 0,transparent 62%);animation:drift1 21s ease-in-out infinite alternate}
 .aurora i:nth-child(2){right:-40vmax;top:10vh;background:radial-gradient(circle,var(--a2) 0,transparent 60%);animation:drift2 26s ease-in-out infinite alternate}
@@ -65,7 +67,7 @@ svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-l
 main{position:relative;z-index:2;width:100%;max-width:460px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 18px calc(30px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:24px}
 main.jolt{animation:jolt .45s linear}
 @keyframes jolt{0%,100%{transform:none}20%{transform:translate(3px,-2px)}40%{transform:translate(-3px,2px)}60%{transform:translate(2px,1px)}80%{transform:translate(-1px,-1px)}}
-#fx{position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
+#fx{position:fixed;left:0;top:0;z-index:5;pointer-events:none}
 
 /* reveal */
 /* every [data-fx] element is invisible until its particles have gathered and built it */
@@ -103,7 +105,7 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
 .rays{position:absolute;inset:-75%;border-radius:50%;background:repeating-conic-gradient(from 0deg,transparent 0deg 7deg,var(--ray) 9deg,transparent 12deg 20deg);-webkit-mask-image:radial-gradient(circle,#000 16%,transparent 62%);mask-image:radial-gradient(circle,#000 16%,transparent 62%);animation:spin 40s linear infinite;pointer-events:none}
 .halo{position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(circle,var(--glow) 0,transparent 66%);animation:pulse 3.2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.65;transform:scale(.95)}50%{opacity:1;transform:scale(1.07)}}
-.ring{position:absolute;inset:-9px;border-radius:50%;padding:1.6px;background:conic-gradient(from var(--ang),transparent 0 52%,var(--teal) 74%,var(--hi) 80%,var(--gold) 88%,transparent 96%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinang 3.4s linear infinite}
+.ring{position:absolute;inset:-9px;border-radius:50%;padding:1.6px;background:conic-gradient(from 0deg,transparent 0 52%,var(--teal) 74%,var(--hi) 80%,var(--gold) 88%,transparent 96%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 3.4s linear infinite}
 .ring2{position:absolute;inset:-19px;border-radius:50%;border:1px dashed var(--stroke);animation:spin 26s linear infinite reverse}
 .orbit{position:absolute;inset:-19px;animation:spin 7s linear infinite}
 .orbit::before{content:"";position:absolute;top:-3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold),0 0 4px #fff}
@@ -159,11 +161,11 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
 .link:hover{--ty:-3px;box-shadow:0 16px 42px var(--glow)}
 .link:active{--ty:1px}
 .link::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.3px;background:conic-gradient(from var(--ang),transparent 0 62%,var(--teal) 78%,var(--gold) 90%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinang 5s linear infinite;pointer-events:none}
-.link::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.16),transparent);transform:skewX(-20deg);animation:shine 6s ease-in-out infinite;pointer-events:none}
+.link::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.16),transparent);transform:translateX(-160%) skewX(-20deg);animation:shine 6s ease-in-out infinite;pointer-events:none}
 .l2::before{animation-delay:-.85s}.l3::before{animation-delay:-1.7s}.l4::before{animation-delay:-2.55s}.l5::before{animation-delay:-3.4s}.l6::before{animation-delay:-4.25s}
 .l2::after{animation-delay:.8s}.l3::after{animation-delay:1.6s}.l4::after{animation-delay:2.4s}.l5::after{animation-delay:3.2s}.l6::after{animation-delay:4s}
 .tel .t{font-variant-numeric:tabular-nums;letter-spacing:.02em;white-space:nowrap}
-@keyframes shine{0%,65%{left:-60%}100%{left:130%}}
+@keyframes shine{0%,65%{transform:translateX(-160%) skewX(-20deg)}100%{transform:translateX(330%) skewX(-20deg)}}
 .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;color:#04161a}
 .l1 .ico{background:linear-gradient(135deg,#ffe27e,#f29b00);box-shadow:0 6px 20px rgba(242,155,0,.35)}
 .l2 .ico{background:linear-gradient(135deg,#6fd0ff,#1f8fe0);box-shadow:0 6px 20px rgba(42,171,238,.4)}
@@ -235,6 +237,19 @@ html.js .logo-wrap{opacity:0;transform:scale(.15)}
 }
 
 @media (max-width:340px){.brands{grid-template-columns:1fr}}
+
+/* ---------- lite mode (phones): drop the effects that repaint every frame ---------- */
+/* live glass-blur over an animated canvas has to be recomputed every frame — the #1 cause of phone lag */
+:root.lite{--card:rgba(9,25,31,.86)}
+:root.lite[data-theme="light"]{--card:rgba(255,255,255,.88)}
+html.lite .langs,html.lite .theme,html.lite .chip,html.lite .brand,html.lite .link,html.lite #toast{-webkit-backdrop-filter:none;backdrop-filter:none}
+html.lite .grid{animation:none}
+html.lite .link::before{animation:none;background:linear-gradient(120deg,transparent 30%,var(--teal) 70%,var(--gold) 100%);opacity:.75}
+html.lite .name{filter:none}
+html.lite .name b{text-shadow:none}
+html.lite .aurora i{animation-duration:40s}
+html.lite [data-fx].on{animation-name:materializeLite;animation-duration:.8s}
+@keyframes materializeLite{0%{opacity:0;filter:blur(4px) brightness(2.4)}50%{opacity:.9;filter:blur(1px) brightness(1.6)}100%{opacity:1;filter:none}}
 @media (prefers-reduced-motion:reduce){.grid,.aurora i,.rays,.orbit,.ring2,.link::after{animation:none}}
 </style>
 </head>
@@ -490,15 +505,27 @@ function setTheme(t, ev) {
 /* ================= canvases ================= */
 const bg = $('#bg'), bctx = bg.getContext('2d');
 const fx = $('#fx'), fctx = fx.getContext('2d');
-let W = innerWidth, H = innerHeight, DPR = 1;
+let lite = root.classList.contains('lite');
+let W = innerWidth, H = innerHeight, DPR = 1, allocW = 0, allocH = 0;
+// Canvases are only re-allocated when the width changes or the viewport grows taller.
+// On phones the address bar shows/hides while scrolling and fires 'resize' constantly —
+// re-allocating full-screen canvases each time was a big source of stutter.
 function resize() {
-  DPR = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight;
-  for (const c of [bg, fx]) { c.width = Math.round(W * DPR); c.height = Math.round(H * DPR); }
-  bctx.setTransform(DPR, 0, 0, DPR, 0, 0); fctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  W = innerWidth; H = innerHeight;
+  const dpr = Math.min(lite ? 1.5 : 2, devicePixelRatio || 1);
+  if (W !== allocW || H > allocH || dpr !== DPR) {
+    DPR = dpr; allocH = W !== allocW ? H : Math.max(H, allocH); allocW = W;
+    for (const c of [bg, fx]) {
+      c.width = Math.round(allocW * DPR); c.height = Math.round(allocH * DPR);
+      c.style.width = allocW + 'px'; c.style.height = allocH + 'px';
+    }
+    bctx.setTransform(DPR, 0, 0, DPR, 0, 0); fctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    fxDirty = true;
+  }
   initStars(); fitDollars();
   const mr = main.getBoundingClientRect(); colL = mr.left; colR = mr.right;
 }
-let colL = 0, colR = 0;
+let colL = 0, colR = 0, fxDirty = true;
 
 function mkDollar(stops, glow) {
   const c = document.createElement('canvas'); c.width = c.height = 128;
@@ -524,9 +551,10 @@ function buildSprites() {
 /* stars & dollars */
 let stars = [], dollars = [];
 function initStars() {
-  const n = clamp(Math.round(W * H / 2600), 90, 320);
-  while (stars.length < n) stars.push({ x: Math.random(), y: Math.random(), r: rand(.4, 1.6), ph: rand(0, TAU), sp: rand(.6, 2.2), z: rand(.25, 1), c: Math.random() < .18 });
+  const n = lite ? clamp(Math.round(W * H / 3800), 70, 150) : clamp(Math.round(W * H / 2600), 90, 320);
+  while (stars.length < n) stars.push({ x: Math.random(), y: Math.random(), r: rand(.5, 1.7), ph: rand(0, TAU), sp: rand(.6, 2.2), z: rand(.25, 1), c: Math.random() < .18 });
   stars.length = n;
+  stars.sort((a, b) => a.c - b.c); // white ones first, teal after → one colour switch per frame
 }
 function newDollar(top) {
   const z = rand(.35, 1);
@@ -545,16 +573,18 @@ let shoot = null, nextShoot = performance.now() + 3000;
 
 function drawBG(now, dt) {
   const c = bctx;
-  c.clearRect(0, 0, W, H);
+  c.clearRect(0, 0, W, allocH);
   par.x += (par.tx - par.x) * .05; par.y += (par.ty - par.y) * .05;
   const t = now * .001;
+  let fill = '';
   for (const s of stars) {
     const tw = .5 + .5 * Math.sin(t * s.sp + s.ph);
     const a = pal.dark ? (.2 + .8 * tw) * s.z : (.15 + .3 * tw) * s.z;
     const x = s.x * W + par.x * 14 * s.z, y = s.y * H + par.y * 14 * s.z, r = s.r * (pal.dark ? 1 : 1.4);
-    c.globalAlpha = a; c.fillStyle = s.c || !pal.dark ? pal.teal : '#fff';
-    c.fillRect(x - r / 2, y - r / 2, r, r);
-    if (pal.dark && s.r > 1.3 && tw > .85) { c.globalAlpha = a * .5; c.fillRect(x - r * 3, y - .3, r * 6, .6); c.fillRect(x - .3, y - r * 3, .6, r * 6); }
+    const f = s.c || !pal.dark ? pal.teal : '#fff';
+    if (f !== fill) { c.fillStyle = f; fill = f; }
+    c.globalAlpha = a; c.fillRect(x - r / 2, y - r / 2, r, r);
+    if (!lite && pal.dark && s.r > 1.3 && tw > .85) { c.globalAlpha = a * .5; c.fillRect(x - r * 3, y - .3, r * 6, .6); c.fillRect(x - .3, y - r * 3, .6, r * 6); }
   }
   if (pal.dark && !reduce) {
     if (!shoot && now > nextShoot) shoot = { x: rand(W * .3, W * 1.1), y: rand(-20, H * .35), vx: -rand(520, 820), vy: rand(220, 380), age: 0, life: rand(.7, 1.1) };
@@ -574,19 +604,47 @@ function drawBG(now, dt) {
     d.y += d.vy * dt * sp; d.ph += dt * d.sw; d.spin += dt * d.spd * sp;
     if (d.y > H + d.s * 2) { Object.assign(d, newDollar(true)); }
     const x = d.x + Math.sin(d.ph) * d.amp + par.x * 22 * d.z, y = d.y + par.y * 10 * d.z;
-    c.save(); c.translate(x, y); c.rotate(Math.sin(d.ph * .8) * .35);
+    if (y < -d.s * 2 || y > H + d.s * 2) continue;
+    const rot = Math.sin(d.ph * .8) * .35, cs = Math.cos(rot), sn = Math.sin(rot);
     let k = Math.cos(d.spin); if (Math.abs(k) < .12) k = k < 0 ? -.12 : .12;
-    c.scale(k, 1);
+    // translate · rotate · scale(k,1) in one matrix — no save/restore per coin
+    c.setTransform(DPR * cs * k, DPR * sn * k, -DPR * sn, DPR * cs, DPR * x, DPR * y);
     // dimmer behind the content column so text always stays readable
     const behind = x > colL && x < colR ? .6 : 1;
     c.globalAlpha = (pal.dark ? .28 + .6 * d.z : .35 + .55 * d.z) * behind;
     c.drawImage(d.teal ? spr.teal : spr.gold, -d.s * .85, -d.s * .85, d.s * 1.7, d.s * 1.7);
-    c.restore();
   }
+  c.setTransform(DPR, 0, 0, DPR, 0, 0);
   c.globalAlpha = 1;
 }
 
 /* ================= element → particle sampling ================= */
+const qc = v => Math.min(255, Math.round(v / 36) * 36);
+// Sample many elements without blocking: work in ~6ms slices, yielding a frame in between.
+// Each result is { r, pts } in viewport coords, normalised to the scroll position at the end.
+const nextFrame = () => new Promise(res => requestAnimationFrame(() => res()));
+async function sampleAll(els, step) {
+  const out = [];
+  let t0 = performance.now();
+  for (const el of els) {
+    const r = el.getBoundingClientRect();
+    out.push({ r, pts: sampleEl(el, step), sy: scrollY });
+    if (performance.now() - t0 > 6) { await nextFrame(); t0 = performance.now(); }
+  }
+  const sy = scrollY;
+  for (const o of out) if (o.sy !== sy) {
+    const d = o.sy - sy;
+    for (const p of o.pts) p.y += d;
+    o.r = { left: o.r.left, top: o.r.top + d, width: o.r.width, height: o.r.height, bottom: o.r.bottom + d };
+  }
+  return out;
+}
+// group particles by colour: one path + one stroke() per colour instead of one per particle
+function groupByColor(list) {
+  const m = new Map();
+  for (const p of list) { let g = m.get(p.c); if (!g) m.set(p.c, g = { c: p.c, ps: [] }); g.ps.push(p); }
+  return [...m.values()];
+}
 function sampleEl(el, step) {
   step = step || 2;
   const r = el.getBoundingClientRect(), out = [];
@@ -659,7 +717,8 @@ function sampleEl(el, step) {
     const i = (yy * w + xx) * 4; if (d[i + 3] < 90) continue;
     const R = d[i], G = d[i + 1], B = d[i + 2];
     if (isLogo && R + G + B < 150) continue;
-    out.push({ x: xx - ox, y: yy - oy, c: `rgb(${R},${G},${B})` });
+    // colours are snapped to a small palette so particles can be drawn in a few big batches
+    out.push({ x: xx - ox, y: yy - oy, c: `rgb(${qc(R)},${qc(G)},${qc(B)})` });
   }
   return out;
 }
@@ -667,19 +726,14 @@ function sampleEl(el, step) {
 /* ================= FX state ================= */
 let introT0 = 0, introScroll = 0, intro = [], allPts = [], inflow = [], sparks = [], dust = [], rings = [], star = null, bodies = [];
 
-// dy = how far the page scrolled since the targets were measured: targets ride along with the page,
-// so the user can scroll freely while the text is still assembling.
-function bez(p, e, dy) {
-  const i = 1 - e, cy = p.cy + dy * .5, ty = p.ty + dy;
-  return [i * i * p.sx + 2 * i * e * p.cx + e * e * p.tx, i * i * p.sy + 2 * i * e * cy + e * e * ty];
-}
-
-function startIntro() {
+// Particles fly along a quadratic curve to their target. Targets are shifted by
+// dy = (scroll when measured − scroll now), so they ride along if the user scrolls mid-intro.
+async function startIntro() {
   const els = $$('[data-fx]').map(el => ({ el, r: el.getBoundingClientRect() }))
     .sort((a, b) => (a.r.top - b.r.top) || (a.r.left - b.r.left));
-  const sets = els.map(o => sampleEl(o.el, 2));
+  const sets = (await sampleAll(els.map(o => o.el), lite ? 3 : 2)).map(s => s.pts);
   const total = sets.reduce((s, p) => s + p.length, 0);
-  const budget = coarse ? 1500 : 2600;
+  const budget = lite ? 1100 : 2600;
   const ratio = Math.min(1, budget / Math.max(1, total));
   introT0 = performance.now(); introScroll = scrollY; intro = []; allPts = [];
   let lastReveal = 0;
@@ -699,35 +753,45 @@ function startIntro() {
     const rv = D + 1020; lastReveal = Math.max(lastReveal, rv);
     setTimeout(() => o.el.classList.add('on'), rv);
   });
+  introGroups = groupByColor(intro);
   phase = 'intro';
   setTimeout(startStar, lastReveal + 250);
 }
+let introGroups = [];
 
 function drawIntro(c, now) {
-  const t = now - introT0, dy = introScroll - scrollY;
+  const t = now - introT0, dy = introScroll - scrollY, fadeIn = Math.min(1, t / 600);
   let alive = 0;
-  for (const p of intro) {
-    if (p.dead) continue; alive++;
-    if (t < p.t0) {
-      const tw = Math.abs(Math.sin(t * .003 * p.w + p.ph));
-      const x = p.sx + Math.sin(t * .0012 * p.w + p.ph) * 5, y = p.sy + Math.cos(t * .001 * p.w + p.ph) * 5;
-      c.globalAlpha = Math.min(1, t / 600) * (.25 + .75 * tw); c.fillStyle = p.c;
-      c.fillRect(x - p.s / 2, y - p.s / 2, p.s, p.s);
-    } else {
-      const u = Math.min(1, (t - p.t0) / p.dur), e = easeIO(u);
-      const [x, y] = bez(p, e, dy);
-      if (u < 1) {
-        const [px, py] = bez(p, Math.max(0, e - .05), dy);
-        c.globalAlpha = .9; c.strokeStyle = p.c; c.lineWidth = p.s;
-        c.beginPath(); c.moveTo(px, py); c.lineTo(x, y); c.stroke();
-      } else {
-        const f = (t - p.t0 - p.dur) / 750; // landed dust glows on while the text solidifies beneath it
+  c.lineWidth = 1.6;
+  for (const g of introGroups) {
+    c.fillStyle = g.c; c.strokeStyle = g.c;
+    c.beginPath();
+    let streaks = 0;
+    for (const p of g.ps) {
+      if (p.dead) continue; alive++;
+      if (t < p.t0) { // floating star-dust, twinkling in place
+        const x = p.sx + Math.sin(t * .0012 * p.w + p.ph) * 5, y = p.sy + Math.cos(t * .001 * p.w + p.ph) * 5;
+        c.globalAlpha = fadeIn * (.25 + .75 * Math.abs(Math.sin(t * .003 * p.w + p.ph)));
+        c.fillRect(x - p.s / 2, y - p.s / 2, p.s, p.s);
+        continue;
+      }
+      const u = Math.min(1, (t - p.t0) / p.dur);
+      if (u < 1) { // flying: add a short streak to this colour's batch
+        const e = easeIO(u), e0 = Math.max(0, e - .05);
+        let i = 1 - e;
+        const x = i * i * p.sx + 2 * i * e * p.cx + e * e * p.tx, y = i * i * p.sy + 2 * i * e * (p.cy + dy * .5) + e * e * (p.ty + dy);
+        i = 1 - e0;
+        c.moveTo(i * i * p.sx + 2 * i * e0 * p.cx + e0 * e0 * p.tx, i * i * p.sy + 2 * i * e0 * (p.cy + dy * .5) + e0 * e0 * (p.ty + dy));
+        c.lineTo(x, y); streaks++;
+      } else { // landed: glows on while the text solidifies beneath it
+        const f = (t - p.t0 - p.dur) / 750;
         if (f >= 1) { p.dead = true; continue; }
-        c.globalAlpha = 1 - f; c.fillStyle = p.c; c.fillRect(x - p.s / 2, y - p.s / 2, p.s, p.s);
+        c.globalAlpha = 1 - f; c.fillRect(p.tx - p.s / 2, p.ty + dy - p.s / 2, p.s, p.s);
       }
     }
+    if (streaks) { c.globalAlpha = .9; c.stroke(); }
   }
-  if (!alive) intro = [];
+  if (!alive) { intro = []; introGroups = []; }
 }
 
 /* ---------- the new star (logo birth) ---------- */
@@ -736,7 +800,7 @@ function startStar() {
   const r = $('#logoWrap').getBoundingClientRect();
   phase = 'star';
   star = { x: r.left + r.width / 2, y: r.top + r.height / 2, docY: r.top + r.height / 2 + scrollY, t0: performance.now(), E: 0, burst: false };
-  const N = coarse ? 230 : 400; star.N = N; inflow = [];
+  const N = lite ? 170 : 400; star.N = N; inflow = [];
   for (let i = 0; i < N; i++) {
     let sx, sy, col;
     if (allPts.length && Math.random() < .45) { const p = allPts[(Math.random() * allPts.length) | 0]; sx = p.x; sy = p.y + introScroll - scrollY; col = p.c; }
@@ -748,24 +812,33 @@ function startStar() {
     const dx = sx - star.x, dy = sy - star.y;
     inflow.push({ a0: Math.atan2(dy, dx), r0: Math.hypot(dx, dy), t0: rand(150, 1150), dur: rand(650, 1000), spin: rand(1.2, 2.6) * (Math.random() < .85 ? 1 : -1), c: col, s: rand(.8, 2) });
   }
+  inflowGroups = groupByColor(inflow);
 }
+let inflowGroups = [];
 
 function drawStar(c, now) {
   const S = star, t = now - S.t0;
   S.y = S.docY - scrollY; // the star stays pinned to the logo even if the page is scrolled
-  for (const p of inflow) {
-    if (p.done) continue;
-    if (t < p.t0) {
-      c.globalAlpha = .5 * Math.min(1, t / 300); c.fillStyle = p.c;
-      c.fillRect(S.x + Math.cos(p.a0) * p.r0 - 1, S.y + Math.sin(p.a0) * p.r0 - 1, p.s, p.s);
-      continue;
+  c.lineWidth = 2;
+  for (const g of inflowGroups) {
+    c.fillStyle = g.c; c.strokeStyle = g.c; c.beginPath();
+    let streaks = 0;
+    for (const p of g.ps) {
+      if (p.done) continue;
+      if (t < p.t0) {
+        c.globalAlpha = .5 * Math.min(1, t / 300);
+        c.fillRect(S.x + Math.cos(p.a0) * p.r0 - 1, S.y + Math.sin(p.a0) * p.r0 - 1, p.s, p.s);
+        continue;
+      }
+      const u = (t - p.t0) / p.dur;
+      if (u >= 1) { p.done = true; S.E = Math.min(1, S.E + 1 / S.N); continue; }
+      const e = u * u, e0 = Math.pow(Math.max(0, u - .08), 2);
+      let rr = p.r0 * (1 - e0), a = p.a0 + p.spin * e0;
+      c.moveTo(S.x + Math.cos(a) * rr, S.y + Math.sin(a) * rr);
+      rr = p.r0 * (1 - e); a = p.a0 + p.spin * e;
+      c.lineTo(S.x + Math.cos(a) * rr, S.y + Math.sin(a) * rr); streaks++;
     }
-    const u = (t - p.t0) / p.dur;
-    if (u >= 1) { p.done = true; S.E = Math.min(1, S.E + 1 / S.N); continue; }
-    const pos = ee => { const rr = p.r0 * (1 - ee), a = p.a0 + p.spin * ee; return [S.x + Math.cos(a) * rr, S.y + Math.sin(a) * rr]; };
-    const [x, y] = pos(u * u), [px, py] = pos(Math.pow(Math.max(0, u - .08), 2));
-    c.globalAlpha = .35 + .65 * u; c.strokeStyle = p.c; c.lineWidth = p.s * (1 + u);
-    c.beginPath(); c.moveTo(px, py); c.lineTo(x, y); c.stroke();
+    if (streaks) { c.globalAlpha = .85; c.stroke(); }
   }
   const after = t - BURST_T;
   const k = after < 0 ? Math.min(1, t / 500) : Math.max(0, 1 - after / 750);
@@ -804,7 +877,7 @@ function burst(S) {
   rings.push({ x: S.x, y: S.docY, t0: now, dur: 1000, max, w: 7, a: 1, c: pal.teal },
              { x: S.x, y: S.docY, t0: now + 90, dur: 1150, max: max * .8, w: 3, a: .85, c: pal.white },
              { x: S.x, y: S.docY, t0: now + 200, dur: 1300, max: max * .6, w: 2, a: .7, c: pal.gold });
-  const n = coarse ? 120 : 190, cols = [pal.teal, pal.gold, pal.white];
+  const n = lite ? 90 : 190, cols = [pal.teal, pal.gold, pal.white];
   for (let i = 0; i < n; i++) {
     const a = rand(0, TAU), v = rand(180, 950);
     sparks.push({ x: S.x, y: S.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: rand(.6, 1.5), age: 0, c: cols[i % 3], s: rand(1, 2.4), drag: rand(1.5, 3), streak: true });
@@ -863,23 +936,28 @@ function collapse() {
   $('#toast').classList.remove('show');
   try { if (navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate([40, 50, 40]); } catch (e) {}
   root.classList.add('lock'); window.scrollTo(0, 0);
-  $$('[data-fall]').forEach(el => el.style.setProperty('--td', (-Math.random() * .2).toFixed(3) + 's'));
+  const list = $$('[data-fall]');
+  list.forEach(el => el.style.setProperty('--td', (-Math.random() * .2).toFixed(3) + 's'));
+  const vis = list.filter(el => { const r = el.getBoundingClientRect(); return r.width >= 1 && r.bottom >= -20 && r.top <= H + 20; });
+  // shape-sampling runs in small slices while the page trembles, so the phone never freezes
+  const sampled = sampleAll(vis, lite ? 3 : 2);
   main.classList.add('tremble');
-  setTimeout(() => {
+  Promise.all([sampled, new Promise(r => setTimeout(r, 700))]).then(([sets]) => {
     const now = performance.now();
-    const list = $$('[data-fall]');
     main.classList.remove('tremble');
     bodies = list.map(el => {
       el.style.animation = 'none'; el.style.transition = 'none';
-      const r = el.getBoundingClientRect();
-      if (r.width < 1 || r.bottom < -20 || r.top > H + 20) { el.style.opacity = '0'; return null; }
+      const i = vis.indexOf(el);
+      if (i < 0) { el.style.opacity = '0'; return null; }
+      const r = el.getBoundingClientRect(), s = sets[i];
       const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-      const pts = sampleEl(el, 2).map(p => ({ x: p.x - cx, y: p.y - cy, c: p.c }));
+      const scx = s.r.left + s.r.width / 2, scy = s.r.top + s.r.height / 2;
+      const pts = s.pts.map(p => ({ x: p.x - scx, y: p.y - scy, c: p.c }));
       el.style.transformOrigin = '50% 50%'; el.style.willChange = 'transform';
       return { el, w: r.width, h: r.height, cx, cy, x: 0, y: 0, vx: 0, vy: 0, a: 0, va: 0, rel: now + rand(0, 1100), st: 'hang', ph: rand(0, TAU),
         rest: 0, restMax: rand(.35, .8), floor: Math.max(H - 2, r.bottom + 30), pts };
     }).filter(Boolean);
-  }, 700);
+  });
 }
 
 function stepBodies(now, dt) {
@@ -920,7 +998,7 @@ function stepBodies(now, dt) {
 function dissolve(b) {
   b.st = 'gone';
   const cos = Math.cos(b.a), sin = Math.sin(b.a), cx = b.cx + b.x, cy = b.cy + b.y;
-  const max = coarse ? 380 : 650, keep = Math.min(1, max / Math.max(1, b.pts.length));
+  const max = lite ? 260 : 650, keep = Math.min(1, max / Math.max(1, b.pts.length));
   for (const p of b.pts) {
     if (Math.random() > keep) continue;
     dust.push({ x: cx + p.x * cos - p.y * sin, y: cy + p.x * sin + p.y * cos, vx: rand(-28, 28) + p.x * .18, vy: rand(-75, -5),
@@ -1000,7 +1078,7 @@ $$('.link').forEach(a => {
 let lastSpark = 0;
 function sparkAt(x, y) {
   par.tx = (x / W - .5) * 2; par.ty = (y / H - .5) * 2;
-  if (phase !== 'idle' || reduce || sparks.length > 400) return;
+  if (phase !== 'idle' || reduce || sparks.length > (lite ? 120 : 400)) return;
   const n = performance.now(); if (n - lastSpark < 28) return; lastSpark = n;
   for (let i = 0; i < 2; i++) sparks.push({ x: x + rand(-4, 4), y: y + rand(-4, 4), vx: rand(-40, 40), vy: rand(-60, 10), g: 70, life: rand(.5, .9), age: 0,
     c: Math.random() < .6 ? pal.teal : pal.gold, s: rand(1, 1.8), drag: 1.5 });
@@ -1010,18 +1088,34 @@ addEventListener('touchmove', e => { const t = e.touches[0]; if (t) sparkAt(t.cl
 addEventListener('resize', resize);
 
 /* ================= main loop ================= */
-let lastT = performance.now();
+let lastT = performance.now(), slowSum = 0, slowN = 0;
+function enableLite() {
+  if (lite) return;
+  lite = true; root.classList.add('lite'); resize();
+}
 function frame(now) {
-  const dt = Math.min(.05, Math.max(0, (now - lastT) / 1000)); lastT = now;
+  const raw = now - lastT, dt = Math.min(.05, Math.max(0, raw / 1000)); lastT = now;
+  // a weak machine that wasn't detected up front: if the calm page can't hold ~45fps, go lite
+  if (!lite && phase === 'idle' && !document.hidden && raw < 250) {
+    slowSum += raw; slowN++;
+    if (slowN >= 90) { if (slowSum / slowN > 22) enableLite(); slowSum = 0; slowN = 0; }
+  }
   drawBG(now, dt);
-  const c = fctx;
-  c.clearRect(0, 0, W, H);
-  c.globalCompositeOperation = pal.dark ? 'lighter' : 'source-over';
-  if (intro.length) drawIntro(c, now);
-  if (star) drawStar(c, now);
-  drawSparks(c, dt);
-  drawDust(c, dt);
-  c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1;
+  const busy = intro.length || star || sparks.length || dust.length;
+  // the full-screen effects layer is only touched while something is actually on it
+  if (busy || fxDirty) {
+    const c = fctx;
+    c.clearRect(0, 0, W, allocH);
+    if (busy) {
+      c.globalCompositeOperation = pal.dark ? 'lighter' : 'source-over';
+      if (intro.length) drawIntro(c, now);
+      if (star) drawStar(c, now);
+      drawSparks(c, dt);
+      drawDust(c, dt);
+      c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1;
+    }
+    fxDirty = !!busy;
+  }
   if (bodies.length) stepBodies(now, dt);
   requestAnimationFrame(frame);
 }
